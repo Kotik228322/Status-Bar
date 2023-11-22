@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Status Bar</title>
+
+    <style>
+        #statusBar {
+            width: 100%;
+            height: 30px;
+            background-color: #e6e6e6;
+            border: 1px solid #bdbdbd;
+            position: relative;
+        }
+
+        #statusBar .status {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #009688;
+            width: 0%;
+        }
+
+        button {
+            margin: 5px;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="statusBar">
+    <div class="status"></div>
+</div>
+<button id="startButton">Начать загрузку</button>
+<button id="pauseButton">Поставить на паузу</button>
+<button id="resumeButton">Возобновить загрузку</button>
+<button id="stopButton">Остановить загрузку</button>
+
+
+<script>
+    const statusBar = document.getElementById('statusBar');
+    const startButton = document.getElementById('startButton');
+    const pauseButton = document.getElementById('pauseButton');
+    const stopButton = document.getElementById('stopButton');
+    const resumeButton = document.getElementById('resumeButton');
+    let animationInterval = null;
+    let isPaused = false;
+
+    startButton.addEventListener('click', () => {
+        startAnimation();
+    });
+
+    pauseButton.addEventListener('click', () => {
+        isPaused = true;
+    });
+
+    stopButton.addEventListener('click', () => {
+        clearInterval(animationInterval);
+        animationInterval = null;
+        isPaused = false;
+        statusBar.querySelector('.status').style.width = '0%';
+    });
+
+    resumeButton.addEventListener('click', () => {
+        isPaused = false;
+    });
+
+    function startAnimation() {
+        if (animationInterval === null) {
+            animationInterval = setInterval(() => {
+                if (!isPaused) {
+                    const currentWidth = parseFloat(statusBar.querySelector('.status').style.width);
+                    statusBar.querySelector('.status').style.width = (currentWidth + 1) + '%';
+                }
+            }, 100);
+        }
+    }
+</script>
+
+</body>
+</html>
